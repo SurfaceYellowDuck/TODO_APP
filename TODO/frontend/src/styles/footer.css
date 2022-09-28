@@ -1,0 +1,9 @@
+.footer {
+    height: 80px;
+    background: #333;
+    margin-top: auto;
+}
+.footer_text {
+    text-align: center;
+    color: #f2f2f2;
+}
