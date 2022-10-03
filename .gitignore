@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 /TODO/users/migrations
 /TODO/TODO/migrations
+/TODO/notes/migrations
+TODO/db.sqlite3
