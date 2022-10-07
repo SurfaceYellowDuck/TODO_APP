@@ -1,6 +1,4 @@
 from django.db import models
-
-from django.db import models
 from users.models import UserProfile
 
 
@@ -58,6 +56,10 @@ class ProjectNotes(models.Model):
         default=True,
         blank=False
     )
+
+    def delete(self):
+        self.is_active = False
+        self.save()
 
     def __str__(self):
         return self.text
