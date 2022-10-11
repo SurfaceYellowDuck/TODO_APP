@@ -4,7 +4,7 @@ from .views import ProjectViewSet, ProjectNotesViewSet
 
 app_name = 'notes'
 router = DefaultRouter()
-router.register('project', ProjectViewSet)
+router.register('projects', ProjectViewSet)
 router.register('project_notes', ProjectNotesViewSet)
 
 urlpatterns = [
