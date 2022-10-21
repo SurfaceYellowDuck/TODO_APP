@@ -131,3 +131,4 @@ dmypy.json
 /TODO/TODO/migrations
 /TODO/notes/migrations
 TODO/db.sqlite3
+.DS_Store
