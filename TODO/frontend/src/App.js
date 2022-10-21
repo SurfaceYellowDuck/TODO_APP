@@ -34,7 +34,7 @@ class App extends React.Component {
     }
 
     set_token(token){
-        console.log(token)
+
         const cookies = new Cookies()
         cookies.set('token', token)
         this.setState({'token': token}, () => this.load_data())
@@ -47,7 +47,6 @@ class App extends React.Component {
     }
 
     get_token(username, password){
-        // console.log(username, password)
         const data = {username: username, password: password}
         axios.post('http://localhost:8000/users/api/token/', data).then(response => {
 
@@ -167,19 +166,6 @@ class App extends React.Component {
                         <Route path="*" element={<NotFound404/>}/>
                     </Routes>
                 </BrowserRouter>
-
-                {/*<div className="users">*/}
-                {/*    <UsersList users={this.state.users}/>*/}
-                {/*</div>*/}
-
-                {/*<div className="users">*/}
-                {/*    <NotesList users={this.state.notes}/>*/}
-                {/*</div>*/}
-
-                {/*<div className="projects">*/}
-                {/*    <UsersList projects={this.state.projects}/>*/}
-                {/*</div>*/}
-
                 <div className="footer">
                     <p class="footer_text"> Footer Created by Yellow Duck </p>
                 </div>
