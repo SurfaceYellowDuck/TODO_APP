@@ -57,9 +57,5 @@ class ProjectNotes(models.Model):
         blank=False
     )
 
-    # def delete(self):
-    #     self.is_active = False
-    #     self.save()
-
     def __str__(self):
         return self.text

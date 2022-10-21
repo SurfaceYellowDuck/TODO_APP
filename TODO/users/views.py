@@ -1,5 +1,4 @@
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
-from rest_framework.viewsets import ModelViewSet
 from .models import UserProfile
 from .serializers import UserProfileModelSerializer
 from rest_framework.viewsets import GenericViewSet
@@ -11,7 +10,3 @@ class UserListRetrieveViewSet(ListModelMixin, RetrieveModelMixin, UpdateModelMix
     serializer_class = UserProfileModelSerializer
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
 
-
-# class UserModelViewSet(ModelViewSet):
-#     queryset = UserProfile.objects.all()
-#     serializer_class = UserProfileModelSerializer
