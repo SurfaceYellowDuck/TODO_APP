@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # 'notes.apps.NotesConfig',
+
     'corsheaders',
     'rest_framework',
     'django_filters',

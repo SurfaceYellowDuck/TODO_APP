@@ -19,11 +19,17 @@ class Project(models.Model):
         verbose_name='Users in project'
     )
 
+    class Meta:
+        app_label = 'notes'
+
     def __str__(self):
         return self.project_name
 
 
 class ProjectNotes(models.Model):
+    # class Meta:
+    #     app_label = 'notes'
+
     project = models.ForeignKey(
         Project,
         on_delete=models.CASCADE
