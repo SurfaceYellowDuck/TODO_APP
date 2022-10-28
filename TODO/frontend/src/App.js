@@ -67,7 +67,7 @@ class App extends React.Component {
 
     load_data(){
         const headers = this.get_headers()
-        axios.get('http://127.0.0.1:8000/users/api/users_custom/', {headers}).then(
+        axios.get('http://127.0.0.1:8000/users/api/users/', {headers}).then(
             response => {
                 const users = response.data.results;
 

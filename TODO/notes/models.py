@@ -16,7 +16,7 @@ class Project(models.Model):
 
     users = models.ManyToManyField(
         UserProfile,
-        verbose_name='Users in project'
+        verbose_name='Users in project',
     )
 
     def __str__(self):
