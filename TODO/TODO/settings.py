@@ -44,10 +44,15 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework_simplejwt.token_blacklist',
     'drf_yasg',
+    'graphene_django',
 
     'users',
     'notes',
 ]
+
+GRAPHENE = {
+    "SCHEMA": "TODO.schema.schema"
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
