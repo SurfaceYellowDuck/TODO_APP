@@ -10,6 +10,8 @@ import NotFound404 from "./components/NotFound404";
 import axios from "axios";
 import Cookies from "universal-cookie/";
 import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
+import NotesCreateForm from "./components/NoteCreateForm";
+import ProjectCreateForm from "./components/ProjectCreateForm"
 
 class App extends React.Component {
     constructor(props) {
@@ -22,31 +24,75 @@ class App extends React.Component {
         }
     }
 
-    logout(){
+    create_project(project_name, users, project_repo) {
+        const headers = this.get_headers()
+        const data = {project_name: project_name, project_repo: project_repo, users: users}
+        axios.post(`http://127.0.0.1:8000/notes/api/projects/`, data, {headers}).then(
+            response => {
+                this.load_data()
+            }
+        ).catch(error => {
+            console.log(error)
+        })
+    }
+
+    delete_project(id) {
+        const headers = this.get_headers()
+        axios.delete(`http://127.0.0.1:8000/notes/api/projects/${id}/`, {headers}).then(response => {
+            this.load_data()
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+
+    create_note(project, text, users) {
+        const headers = this.get_headers()
+        const data = {project: project, text: text, creator: users}
+        axios.post(`http://127.0.0.1:8000/notes/api/project_notes/`, data, {headers}).then(
+            response => {
+                this.load_data()
+            }
+        ).catch(error => {
+            console.log(error)
+            this.setState({notes: []})
+        })
+    }
+
+    delete_note(id) {
+        const headers = this.get_headers()
+        axios.delete(`http://127.0.0.1:8000/notes/api/project_notes/${id}/`, {headers}).then(response => {
+            this.load_data()
+        }).catch(error => {
+            console.log(error)
+            this.setState({notes: []})
+        })
+    }
+
+    logout() {
         this.set_token('')
         this.setState({'notes': []})
         this.setState({'projects': []})
         this.setState({'users': []})
     }
 
-    is_authenticated(){
+    is_authenticated() {
         return !!this.state.token
     }
 
-    set_token(token){
+    set_token(token) {
 
         const cookies = new Cookies()
         cookies.set('token', token)
         this.setState({'token': token}, () => this.load_data())
     }
 
-    get_token_storage(){
+    get_token_storage() {
         const cookies = new Cookies()
         const token = cookies.get('token')
         this.setState({'token': token}, () => this.load_data())
     }
 
-    get_token(username, password){
+    get_token(username, password) {
         const data = {username: username, password: password}
         axios.post('http://localhost:8000/users/api/token/', data).then(response => {
 
@@ -55,17 +101,17 @@ class App extends React.Component {
         }).catch(error => alert('Incorrect login or password'))
     }
 
-    get_headers(){
+    get_headers() {
         let headers = {
             'Content-Type': 'application/json'
         }
-        if (this.is_authenticated()){
-            headers['Authorization']= 'Bearer '+ this.state.token
+        if (this.is_authenticated()) {
+            headers['Authorization'] = 'Bearer ' + this.state.token
         }
         return headers
     }
 
-    load_data(){
+    load_data() {
         const headers = this.get_headers()
         axios.get('http://127.0.0.1:8000/users/api/users/', {headers}).then(
             response => {
@@ -118,7 +164,7 @@ class App extends React.Component {
                 <BrowserRouter>
                     <nav>
                         <li>
-                            {this.is_authenticated()  ? <button onClick={() => this.logout()}>Logout</button> :
+                            {this.is_authenticated() ? <button onClick={() => this.logout()}>Logout</button> :
                                 <Link to='/login'>Login</Link>}
                         </li>
                         <li>
@@ -148,10 +194,28 @@ class App extends React.Component {
                                 </div>
                             }/>
 
+                        <Route exact path={'/projects/create'} element=
+                            {
+                                <div className="projects">
+                                    <ProjectCreateForm users={this.state.users}
+                                                       create_project={(project_name, users, project_repo) => this.create_project(project_name, users, project_repo)}/>
+                                </div>
+
+                            }/>
+
                         <Route exact path={'/projects'} element=
                             {
                                 <div className="projects">
-                                    <ProjectsList projects={this.state.projects}/>
+                                    <ProjectsList projects={this.state.projects} delete_project={(id) => this.delete_project(id)}/>
+                                </div>
+
+                            }/>
+
+                        <Route exact path={'/notes/create'} element=
+                            {
+                                <div className="notes">
+                                    <NotesCreateForm project={this.state.projects} users={this.state.users}
+                                                     create_note={(project, name, users) => this.create_note(project, name, users)}/>
                                 </div>
 
                             }/>
@@ -159,9 +223,10 @@ class App extends React.Component {
                         <Route exact path={'/notes'} element=
                             {
                                 <div className="notes">
-                                    <NotesList notes={this.state.notes}/>
+                                    <NotesList notes={this.state.notes} delete_note={(id) => this.delete_note(id)}/>
                                 </div>
                             }/>
+
                         <Route/>
                         <Route path="*" element={<NotFound404/>}/>
                     </Routes>
