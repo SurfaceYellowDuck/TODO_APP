@@ -1,13 +1,9 @@
-from rest_framework.serializers import ModelSerializer, SlugRelatedField
+from rest_framework.serializers import ModelSerializer, StringRelatedField
 from .models import Project, ProjectNotes
 
 
 class ProjectSerializer(ModelSerializer):
-    users = SlugRelatedField(
-        read_only=True,
-        slug_field='username',
-        many=True
-    )
+    # users = StringRelatedField(many=True)
 
     class Meta:
         model = Project
@@ -15,10 +11,7 @@ class ProjectSerializer(ModelSerializer):
 
 
 class ProjectNotesSerializer(ModelSerializer):
-    creator = SlugRelatedField(
-            slug_field='username',
-            read_only=True,
-        )
+    # creator = StringRelatedField(many=True)
 
     class Meta:
         model = ProjectNotes

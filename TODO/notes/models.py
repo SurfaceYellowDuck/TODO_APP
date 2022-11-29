@@ -34,9 +34,8 @@ class ProjectNotes(models.Model):
         blank=False
     )
 
-    creator = models.ForeignKey(
-        UserProfile,
-        on_delete=models.CASCADE
+    creator = models.ManyToManyField(
+        UserProfile
     )
     datetime_created = models.DateTimeField(
         auto_now_add=True,
